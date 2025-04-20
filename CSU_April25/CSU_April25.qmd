@@ -1,0 +1,390 @@
+---
+title: Bayesian Model Calibration
+subtitle: An Elastic Approach
+format: clean-revealjs
+revealjs-plugins:
+  - pointer
+author:
+  - name: J. Derek Tucker
+    orcid: 0000-0001-8844-2169
+    email: jdtuck@sandia.gov
+    affiliations: Sandia National Laboratories
+date: last-modified
+---
+
+## Sandia National Laboratories
+
+-   Department of Energy National Lab
+-   14,000 Staff across 7 Locations
+-   Two Statistics Departments
+    -   30 Full Time Staff, 4 Post-Docs, 10 year round interns
+
+<center>![](figs/team_photo.png){width="800"}</center>
+
+-   Collaborators: Devin Francom (LANL), Gabriel Huerta, Kurtis Shuler, Gavin Collins, Justin Brown.
+
+## Outline
+
+::: columns
+::: {.column width="49.5%"}
+-   Introduction
+-   Functional Data Analysis
+    -   Elastic Metric
+-   Elastic Bayesian Model Calibration
+-   Results
+    -   Simulation
+    -   Sandia Z-Machine Equation of State
+:::
+
+::: {.column width="49.5%"}
+![](figs/flyer_original.png)
+:::
+:::
+
+## Introduction
+
+::: {.column width="49.5%"}
+-   Question: How can we model functions
+    -   [Can we use them as predictors in a regression model?]{.blue}
+    -   [Can we calibrate a computer model?]{.blue}
+:::
+
+::: {.column width="49.5%"}
+![](figs/graphics-horiz-1.png)
+:::
+
+-   It is the same goal (question) of any area of statistical research
+-   One problem occurs when performing these types of analysis is that functional data can contain variability in [time]{.alert} (x-direction) and [amplitude]{.alert} (y-direction)
+-   How do we characterize and utilize this variability in the models that are constructed from functional data?
+
+## FDA versus Multivariate Statistics
+
+ In FDA, one develops the [theory]{.alert} on function spaces and not finite vectors, and discretizes the function only at the final step – compute implementation
+
+<center>![](figs/ulf.png){height="250"}</center>
+
+ Ulf Grenander: “[Discretize as late as possible]{.alert}” (1924-2016)
+
+ Even after discretization, we retain the ability to interpolate resample as needed!
+
+## Components of Function Variability
+
+![](figs/function_var.png){.lightbox fig-align="center"}
+
+## Classical FDA: Loss of Structure
+
+-   Cross-sectional statistics ignore horizontal component, often [destroys structures]{.alert}
+
+![](figs/classic_fda.png){fig-align="center" height="300"}
+
+## Elastic FDA
+
+![](figs/elastic_fda.png){fig-align="center" height="80%"}
+
+## Functional Data Analysis 
+
+::: {style="font-size: 90%;"}
+-   Let $f$ be a real valued-function with the domain $[0,1]$, can be extended to any domain
+    -   Only functions that are absolutely continuous on $[0,1]$
+-   Let $\Gamma$ be the group of all warping functions $$ \Gamma = \{\gamma:[0,1]\rightarrow[0,1]|\gamma(0)=0,\gamma(1)=1,~\gamma \mbox{ is a diffeo}\} $$
+-   It acts on the function space by composition $$(f,\gamma) = f\circ\gamma$$
+-   It is common to use the following objective function for alignment $$\min_{\gamma\in\Gamma}\|f_1\circ\gamma-f_2\|$$
+-   Note: It is [not a distance]{.alert} function since it is not symmetric.
+:::
+
+## Elastic Distance (Fisher-Rao)
+::: {style="font-size: 90%;"}
+Define the Square Root Velocity Function $$q:[0,1]\rightarrow\mathbb{R}^1,~q(t)=sign(\dot{f}(t))\sqrt{|\dot{f}(t)|}$$ Fisher Rao Distance is $\mathbb{L}^2$ in SRVF space $$d_a(f_1,f_2) = \inf_\gamma\|(q_1\circ\gamma)\sqrt{\dot{\gamma}}-q_2\|$$ Distance is a [proper distance]{.alert}
+
+Can compute distance on warping functions (how much alignment) $$d_p(\gamma) = \arccos\left(\int_0^1\sqrt{\dot{\gamma}}\,dt\right)$$
+:::
+
+## Analysis of $\Gamma$
+
+::: {.column width="49.5%"}
+-   $\Gamma$ is a nonlinear manifold and it is infinite dimensional
+
+-   Represent an element of $\gamma\in\Gamma$ by the square-root of its derivative: $\psi = \sqrt{\dot{\gamma}}$
+
+-   Important advantage of this transformation is the set of all such $\psi$'s is a Hilbert Sphere $\mathbb{S}_\infty$
+:::
+
+::: {.column width="49.5%"}
+<center>![](figs/spheremap_single.png){height="365"}</center>
+:::
+
+## Bayesian Model Calibration
+
+::: {.column width="49.5%"}
+![](figs/flyer_original.png)
+:::
+
+::: {.column width="49.5%"}
+-   We wish to calibrate a computer model with parameters $\theta$ to an experiment
+-   Can compute computer model (simulations) over wide range of $\theta$
+-   The data is functional in nature and has [phase]{.alert} and [amplitude]{.alert} variability
+-   Utilize elastic metrics in a Bayesian Model Calibration Framework
+:::
+
+## Bayesian Model Calibration
+
+<center>![](figs/standard_cal.png)</center>
+
+## Bayesian Model Calibration
+
+-   Let $z(t,\boldsymbol{x_i})$ denote an experimental measurement from the $i^{th}$ experiment
+
+-   Similarly, let $y(t,\boldsymbol{x_i}, \boldsymbol{u})$ denote a simulation of the $i^{th}$ experiment with input parameters $\boldsymbol{u}$
+
+-   An approach to Bayesian model calibration with functional responses is to specify $$z(t,\boldsymbol{x_i}) = y(t,\boldsymbol{x_i},\boldsymbol{\theta}) + \delta(t, \boldsymbol{x_i}) + \epsilon_i(t,\boldsymbol{x_i}), ~~\epsilon(t,\boldsymbol{x_i})\sim \mathcal{N}(0,\sigma_\epsilon^2)$$
+
+-   Where $\delta$ is a model discrepancy term and $\epsilon$ represents all other error
+
+-   This model will suffer from the aforementioned problems with phase variability
+
+## Elastic Bayesian Model Calibration
+
+<center>![](figs/elastic_cal.png)</center>
+
+## Elastic Bayesian Model Calibration
+
+-   Decompose observation into aligned functions and warping functions $$z(t,\boldsymbol{x_i}) = \tilde z(t, \boldsymbol{x_i}) \circ\gamma_{z\rightarrow z}(t,\boldsymbol{x_i})$$
+-   and decompose the simulations $$y(t,\boldsymbol{x_j}, \boldsymbol{u_j}) = \tilde y(t,\boldsymbol{x_j}, \boldsymbol{u_j}) \circ \gamma_{y\rightarrow z}(t, \boldsymbol{x_j},  \boldsymbol{u_j})$$
+-   To facilitate modeling, we transform the warping functions into shooting vector space with $$\boldsymbol{v}_{z\rightarrow z}(\boldsymbol{x_i}) = \exp_{\psi}^{-1}\left(\sqrt{\dot\gamma_{z\rightarrow z}(\boldsymbol{x_i})}\right)$$ $$\boldsymbol{v}_{y\rightarrow z}(\boldsymbol{x_j},\boldsymbol{u_j}) = \exp_{\psi}^{-1}\left(\sqrt{\dot\gamma_{y\rightarrow z}(\boldsymbol{x_j},\boldsymbol{u_j})}\right)$$
+
+## Elastic Bayesian Model Calibration
+
+-   Calibrate the aligned data and shooting vectors using the following model $$\tilde{z}(t,\boldsymbol{x_i}) = \tilde{y}(t, \boldsymbol{x_i}, \boldsymbol{\theta}) + \delta_{\tilde{y}}(t, \boldsymbol{x_i}) + \epsilon_{\tilde{z}}(t, \boldsymbol{x_i}), ~~\epsilon_{\tilde{z}}(t, \boldsymbol{x_i})\sim \mathcal{N}(0,\sigma_{\tilde{z}}^2)$$ $$\boldsymbol{v}_{z\rightarrow z}(\boldsymbol{x_i}) = \boldsymbol{v}_{y\rightarrow z}(\boldsymbol{x_i}, \boldsymbol{\theta}) + \boldsymbol{\delta_v(\boldsymbol{x_i})} + \boldsymbol{\epsilon_v(\boldsymbol{x_i})}, ~~\boldsymbol{\epsilon_v(\boldsymbol{x_i})} \sim \mathcal{N}(0,\sigma_v^2\boldsymbol{I})$$
+-   Note: The shooting vector will be identity if the data is aligned to the observation (experiment)
+-   Then if $\theta$ is calibrated correctly the shooting vectors will be identity
+
+## MCMC Sampling
+
+For each experiment the likelihood is a Gaussian likelihood
+
+1.  We fit an emulator (Gaussian Process, BASS, MARS) to the simulated data
+2.  Uniform priors on $\theta$
+3.  Sample posterior using delayed rejection adaptive Metropolis Hastings
+4.  Implemented using Impala (LANL) calibration framework
+
+## Simulation
+
+::: {.column width="49.5%"}
+![](figs/sim_original.png)
+:::
+
+::: {.column width="49.5%"}
+-   Simulation study where each function is parameterized Gaussian pdf
+-   A set of 100 functions were simulated with $\theta_0,\theta_1$ being drawn from a $U[0,1]$
+-   Third nuisance parameter $\theta_2$ also drawn from $U[0,1]$
+:::
+
+$$f_i(t) = \frac{\theta_1}{0.05\sqrt{2\pi}}\exp\left(-\frac{1}{2}\left(\frac{t-(\sin(2\pi \theta_0^2)/4-\theta_0/10+0.5)}{0.05}\right)^2\right)$$
+
+## Calibration
+
+::: {.column width="32%"}
+<center>
+
+![Aligned](figs/sim_ftilde_cal.png){width="300"}
+
+</center>
+:::
+
+::: {.column width="32%"}
+<center>
+
+![Warping Functions](figs/sim_gam_cal.png){width="300"}
+
+</center>
+:::
+
+::: {.column width="32%"}
+<center>
+
+![Shooting Vectors](figs/sim_v_cal.png){width="300"}
+
+</center>
+:::
+
+-   Trained BASS Emulator on Aligned Functions and Shooting Vectors (using elastic fPCA)
+-   Calibrated using framework with tempering and adaptive MCMC
+-   Blue shows draws from posterior distribution at 95% credible interval
+
+## Calibration
+
+::: {.column width="49.5%"}
+![](figs/sim_calibration.png)
+:::
+
+::: {.column width="49.5%"}
+![](figs/sim_pairplot.png)
+:::
+
+## Comparison to Standard Method
+
+::: {.column width="49.5%"}
+![](figs/sim_no_align_calibration.png)
+:::
+
+::: {.column width="49.5%"}
+![](figs/sim_noalign_pairplot.png)
+:::
+
+## Simulation with Discrepancy
+
+::: {.column width="49.5%"}
+![](figs/sim_disc_original.png)
+:::
+
+::: {.column width="49.5%"}
+-   Repeat same simulation model with with the experiment having a timing discrepancy
+-   Discrepancy modeling with basis functions in shooting vector space
+:::
+
+## Calibration
+
+::: {.column width="32%"}
+<center>
+
+![Aligned](figs/sim_disc_ftilde_cal.png){width="300"}
+
+</center>
+:::
+
+::: {.column width="32%"}
+<center>
+
+![Warping Functions](figs/sim_disc_gam_cal.png){width="300"}
+
+</center>
+:::
+
+::: {.column width="32%"}
+<center>
+
+![Shooting Vectors](figs/sim_disc_v_cal.png){width="103000"}
+
+</center>
+:::
+
+-   Trained BASS Emulator on Aligned Functions and Shooting Vectors (using elastic fPCA)
+-   Calibrated using framework with tempering and adaptive MCMC
+-   Blue shows draws from posterior distribution at 95% credible interval
+
+## Calibration
+
+::: {.column width="49.5%"}
+![](figs/sim_disc_calibration.png)
+:::
+
+::: {.column width="49.5%"}
+![](figs/sim_disc_pairplot.png)
+:::
+
+## Comparison to Standard Method
+
+::: {.column width="49.5%"}
+![](figs/sim_disc_no_align_calibration.png)
+:::
+
+::: {.column width="49.5%"}
+![](figs/sim_disc_noalign_pairplot.png)
+:::
+
+## Z-Machine {background="#43464B"}
+
+[Video](https://www.youtube.com/watch_popup?v=5sJ95bjKJZc)
+
+## Calibration of Platinum Equation of State
+
+![](figs/platinum_data.png)
+
+-   Calibration equation of state of platinum generated with pulse magnetic fields
+
+-   Estimate the parameters describing the compressibility (relationship between pressure and density) to understand extreme pressures
+
+-   Conducted using Sandia Z-machine, a pulse power drive reactor
+
+## Calibration
+
+<center>![](figs/calibration_all.png){width="700"}</center>
+
+-   We have a good fit between experiment and simulation
+
+-   Better residuals over standard calibration method
+
+## Comparison to ILA
+
+-   Comparison to numerical method (ILA), we have good agreement
+
+-   Small percentage difference between ILA and Calibrated Model
+
+<center>![](figs/ila_comparison){width="700"}</center>
+
+## Platinum Parameters
+
+::: columns
+::: {.column width="49.5%"}
+-   With the elastic method we have tighter posteriors over previous methods
+
+-   Additionally, scientists at Z have confirmed the parameters conform more to physical understanding of the material
+:::
+
+::: {.column width="49.5%"}
+<center>![](figs/platinum_pairplot.png){width="450"}</center>
+:::
+:::
+
+
+## Sensitivity Analysis
+
+![](figs/sensitivity.png){width="80%"}
+
+## Software
+::: columns
+::: {.column width="74.5%"}
+- We have developed workflow in Python, R, and MATLAB
+- All are dependent on packages authored by 5573, LANL, and others
+- Dependent Packages:
+    1. `fdasrvf` - Elastic Functional Data Analysis
+    2. `mvBayes` - Multivariate Bayes Surrogate Fitting and Analysis 
+    3. `BASS`, `BayesPPR`, `scaledvecchia`, `stochtree` - Surrogate Models
+    4. `impala` - Bayesian Model Calibration
+- Example python jupyter notebook available for use
+:::
+
+::: {.column width="24.5%"}
+<center>![](figs/Logo.png)</center>
+:::
+:::
+
+## Summary
+
+-   Functional metrics provide a global measure of the difference of a function in terms of amplitude and phase
+
+-   Integrated elastic functional metrics into Bayesian Model Calibration framework utilizing aligned data and shooting vector representation
+
+-   Demonstrated ability on simulated and platinum equation of state calibration problems
+
+-   [Future Work]{.blue}
+
+    -   Additional testing on real world examples
+
+## Papers
+
+D. Francom, J. D. Tucker, J. G. Huerta, K. Shuler, and D. Ries, “Elastic Bayesian Model Calibration”, arXiv:2305.08834 \[stat.ME\], in revision, 2023. 
+
+J. Brown, J. P. Davis, J. D. Tucker, J. G. Huerta, and K. Shuler, “Quantifying uncertainty in analysis of shockless dynamic compression experiments on platinum, Part 2: Bayesian model calibration”, Journal of Applied Physics, vol. 134, no. 23, 2023.
+
+##  {background="#43464B" .center}
+
+<center>
+
+<font size="48">Questions?</font>
+
+jdtuck\@sandia.gov
+
+http://research.tetonedge.net
+
+</center>
