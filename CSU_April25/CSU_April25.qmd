@@ -373,7 +373,7 @@ $$f_i(t) = \frac{\theta_1}{0.05\sqrt{2\pi}}\exp\left(-\frac{1}{2}\left(\frac{t-(
 
 ## Papers
 
-D. Francom, J. D. Tucker, J. G. Huerta, K. Shuler, and D. Ries, “Elastic Bayesian Model Calibration”, arXiv:2305.08834 \[stat.ME\], in revision, 2023. 
+D. Francom, J. D. Tucker, J. G. Huerta, K. Shuler, and D. Ries, “Elastic Bayesian Model Calibration”, SIAM/ASA Journal on Uncertainty Quantification, vol. 13, no. 1, 2025.
 
 J. Brown, J. P. Davis, J. D. Tucker, J. G. Huerta, and K. Shuler, “Quantifying uncertainty in analysis of shockless dynamic compression experiments on platinum, Part 2: Bayesian model calibration”, Journal of Applied Physics, vol. 134, no. 23, 2023.
 
