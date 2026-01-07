@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="J. Derek Tucker">
-  <meta name="dcterms.date" content="2025-12-30">
+  <meta name="dcterms.date" content="2026-01-07">
   <title>Bayesian Model Calibration</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -148,7 +148,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
     </div>
 </div>
 
-  <p class="date">December 30, 2025</p>
+  <p class="date">January 7, 2026</p>
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
@@ -206,7 +206,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <h2>Shape Preserving Transformations</h2>
 <p>Following group actions are shape preserving:</p>
 <ul>
-<li><span class="alert">Translation</span>: For any <span class="math inline">\(x\in\mathbb{R}^2\)</span>, the <span class="math inline">\(\beta(t)\mapsto x+beta(t)\)</span> denotes a translation of <span class="math inline">\(\beta\)</span></li>
+<li><span class="alert">Translation</span>: For any <span class="math inline">\(x\in\mathbb{R}^2\)</span>, the <span class="math inline">\(\beta(t)\mapsto x+\beta(t)\)</span> denotes a translation of <span class="math inline">\(\beta\)</span></li>
 <li><span class="alert">Rotation</span>: For any <span class="math inline">\(O\in SO(2)\)</span>, the <span class="math inline">\(\beta(t)\mapsto O\beta(t)\)</span> denotes rotation of <span class="math inline">\(\beta\)</span></li>
 <li><span class="alert">Scaling</span>: For any <span class="math inline">\(a\in\mathbb{R}_+\)</span>, the <span class="math inline">\(\beta(t)\mapsto a\beta(t)\)</span> denotes the scaling of <span class="math inline">\(\beta\)</span></li>
 <li><span class="alert">Re-parameterization</span>: For any <span class="math inline">\(\gamma\in\Gamma\)</span>, <span class="math inline">\(\beta(t) \mapsto \beta(\gamma(t))\)</span> is a re-parameterization of <span class="math inline">\(\beta\)</span></li>
@@ -230,7 +230,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <section id="elastic-riemannian-metric" class="slide level2">
 <h2>Elastic Riemannian Metric</h2>
 <ul>
-<li>Let <span class="math inline">\(\beta:[0,1] \rightarrow \mathbb{R}^n\)</span> be a Euclideand curve</li>
+<li>Let <span class="math inline">\(\beta:[0,1] \rightarrow \mathbb{R}^n\)</span> be a Euclidean curve</li>
 <li>Define the <span class="alert">square-root velocity function</span> (SRVF) <span class="math display">\[ q(t) = \frac{\dot{\beta}(t)}{\sqrt{|\dot{\beta}(t)|}} \]</span></li>
 <li>The mapping transforms the complicated elastic Riemmanian metric into the <span class="math inline">\(\mathbb{L}^2\)</span> for shapes</li>
 <li>Checking all nuisance transformations (translation, scaling, and reparameterization) we define the equivalence class of shape to be <span class="math display">\[ [q] = \{O(q,\gamma)|O\in SO(n),\gamma\in\Gamma\}\]</span></li>
@@ -241,7 +241,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <p><span class="math display">\[ [q] = \{O(q,\gamma)|O\in SO(n),\gamma\in\Gamma\}\]</span></p>
 <ul>
 <li>This set of SRVFS of all possible rotations, and reparameterizations of <span class="math inline">\(\beta\)</span></li>
-<li>Note: we scale <span class="math inline">\(q\)</span> to 1 then <span class="math inline">\(q\)</span> is an element of a unit sphere <span class="math inline">\(\mathbb{S}_\infty\)</span></li>
+<li>Note: If we scale <span class="math inline">\(q\)</span> to unit length then <span class="math inline">\(q\)</span> is an element of a unit sphere <span class="math inline">\(\mathbb{S}_\infty\)</span></li>
 </ul>
 </section>
 <section id="shape-metric" class="slide level2">
@@ -271,8 +271,8 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <p><img data-src="figs/original_curves.png"></p>
 </div><div class="column" style="width:49.5%;">
 <ul>
-<li>We wish to calibrate a computer model with parameters <span class="math inline">\(\theta\)</span> to an experiment</li>
-<li>Can compute computer model (simulations) over wide range of <span class="math inline">\(\theta\)</span>?</li>
+<li>We wish to calibrate a computer model with parameters <span class="math inline">\(\phi\)</span> to an experiment</li>
+<li>Can compute computer model (simulations) over wide range of <span class="math inline">\(\phi\)</span></li>
 <li>The data is parameterized curves</li>
 <li>Utilize elastic metrics in a Bayesian Model Calibration Framework</li>
 </ul>
@@ -288,7 +288,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <ul>
 <li><p>Let <span class="math inline">\(z(t,\boldsymbol{x_i})\)</span> denote an experimental measurement from the <span class="math inline">\(i^{th}\)</span> experiment</p></li>
 <li><p>Similarly, let <span class="math inline">\(y(t,\boldsymbol{x_i}, \boldsymbol{u})\)</span> denote a simulation of the <span class="math inline">\(i^{th}\)</span> experiment with input parameters <span class="math inline">\(\boldsymbol{u}\)</span></p></li>
-<li><p>An approach to Bayesian model calibration with functional responses is to specify <span class="math display">\[z(t,\boldsymbol{x_i}) = y(t,\boldsymbol{x_i},\boldsymbol{\theta}) + \delta(t, \boldsymbol{x_i}) + \epsilon_i(t,\boldsymbol{x_i}), ~~\epsilon(t,\boldsymbol{x_i})\sim \mathcal{N}(0,\sigma_\epsilon^2)\]</span></p></li>
+<li><p>An approach to Bayesian model calibration with functional responses is to specify <span class="math display">\[z(t,\boldsymbol{x_i}) = y(t,\boldsymbol{x_i},\boldsymbol{\phi}) + \delta(t, \boldsymbol{x_i}) + \epsilon_i(t,\boldsymbol{x_i}), ~~\epsilon(t,\boldsymbol{x_i})\sim \mathcal{N}(0,\sigma_\epsilon^2)\]</span></p></li>
 <li><p>Where <span class="math inline">\(\delta\)</span> is a model discrepancy term and <span class="math inline">\(\epsilon\)</span> represents all other error</p></li>
 <li><p>This model will suffer from the aforementioned problems with dimension and variabiltiy in curves</p></li>
 <li><p>How does one emulate a open/closed curve?</p></li>
@@ -312,9 +312,9 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <section id="elastic-bayesian-model-calibration-2" class="slide level2">
 <h2>Elastic Bayesian Model Calibration</h2>
 <ul>
-<li>Calibrate the aligned data and shooting vectors using the following model <span class="math display">\[\boldsymbol{v}_{z}(\boldsymbol{x_i}) = \boldsymbol{v}_{y}(\boldsymbol{x_i}, \boldsymbol{\theta}) + \boldsymbol{\delta_v(\boldsymbol{x_i})} + \boldsymbol{\epsilon_v(\boldsymbol{x_i})}, ~~\boldsymbol{\epsilon_v(\boldsymbol{x_i})} \sim \mathcal{N}(0,\sigma_v^2\boldsymbol{I})\]</span></li>
+<li>Calibrate the aligned data and shooting vectors using the following model <span class="math display">\[\boldsymbol{v}_{z}(\boldsymbol{x_i}) = \boldsymbol{v}_{y}(\boldsymbol{x_i}, \boldsymbol{\phi}) + \boldsymbol{\delta_v(\boldsymbol{x_i})} + \boldsymbol{\epsilon_v(\boldsymbol{x_i})}, ~~\boldsymbol{\epsilon_v(\boldsymbol{x_i})} \sim \mathcal{N}(0,\sigma_v^2\boldsymbol{I})\]</span></li>
 <li>Note: The shooting vector will be identity if the data is aligned to the observation (experiment)</li>
-<li>Then if <span class="math inline">\(\theta\)</span> is calibrated correctly the shooting vectors will be at the center of the tangent space</li>
+<li>Then if <span class="math inline">\(\phi\)</span> is calibrated correctly the shooting vectors will be at the center of the tangent space</li>
 </ul>
 </section>
 <section id="mcmc-sampling" class="slide level2">
@@ -322,7 +322,7 @@ J. Derek Tucker <a href="https://orcid.org/0000-0001-8844-2169" class="quarto-ti
 <p>For each experiment the likelihood is a Gaussian likelihood</p>
 <ol type="1">
 <li>We fit an emulator (Gaussian Process, BASS, MARS) to the simulated data</li>
-<li>Uniform priors on <span class="math inline">\(\theta\)</span></li>
+<li>Uniform priors on <span class="math inline">\(\phi\)</span></li>
 <li>Sample posterior using delayed rejection adaptive Metropolis Hastings</li>
 <li>Implemented using Impala (LANL) calibration framework</li>
 </ol>
